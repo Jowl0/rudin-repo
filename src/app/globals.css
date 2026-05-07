@@ -1,49 +1,138 @@
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu+Mono:wght@400;700&display=swap');
+@import url('https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css');
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #F2F2E9;
+  --foreground: #121212;
+  
+  --color0: #121212; --color8: #404040;
+  --color1: #945454; --color9: #B36666;
+  --color2: #6B7A6B; --color10: #8DA18D;
+  --color3: #A39171; --color11: #C7B18A;
+  --color4: #4A5B66; --color12: #607585;
+  --color5: #856E75; --color13: #A68A93;
+  --color6: #6E8585; --color14: #8AA6A6;
+  --color7: #A0A0A0; --color15: #F2F2E9;
+
+  --border-width: 2px;
+  --font-mono: 'Ubuntu Mono', 'Courier New', monospace;
+  --padding-window: 25px;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+[data-theme='dark'] {
+  --background: #121212;
+  --foreground: #F2F2E9;
 }
 
-html {
-  height: 100%;
-}
+* { box-sizing: border-box; padding: 0; margin: 0; }
 
-html,
 body {
-  max-width: 100vw;
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-mono);
+  font-size: 10pt;
+  line-height: 1.5;
+  min-height: 100vh;
   overflow-x: hidden;
 }
 
-body {
-  min-height: 100%;
-  display: flex;
-  flex-direction: column;
-  color: var(--foreground);
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: var(--padding-window);
+}
+
+.retro-window {
+  border: var(--border-width) solid var(--foreground);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  margin-bottom: 2rem;
 }
 
-* {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
+.retro-header {
+  background: var(--foreground);
+  color: var(--background);
+  padding: 5px 15px;
+  font-weight: bold;
+  font-size: 0.7rem;
+  display: inline-block;
+  clip-path: polygon(0 0, 95% 0, 100% 100%, 0% 100%);
+  padding-right: 30px;
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
+.retro-content {
+  padding: 1.5rem;
+  border-top: var(--border-width) solid var(--foreground);
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
+.retro-input {
+  width: 100%;
+  padding: 1rem;
+  border: var(--border-width) solid var(--foreground);
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-mono);
+  margin-bottom: 2rem;
+  outline: none;
+  font-size: 1rem;
+}
+
+.terminal-block-cursor::after {
+  content: ' ';
+  display: inline-block;
+  width: 8px;
+  height: 1.1em;
+  background: var(--foreground);
+  margin-left: 4px;
+  vertical-align: middle;
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes blink { from, to { opacity: 1; } 50% { opacity: 0; } }
+
+/* Responsive Overrides */
+@media (max-width: 600px) {
+  .container {
+    padding: 15px;
   }
+  
+  .terminal-command {
+    font-size: 1.4rem !important;
+  }
+  
+  .terminal-prompt-line {
+    font-size: 0.9rem !important;
+  }
+  
+  .terminal-status {
+    padding-left: 0 !important;
+    font-size: 0.75rem !important;
+    margin-top: 0.5rem;
+  }
+  
+  .retro-content {
+    padding: 1rem;
+  }
+}
+
+/* Theme Icon Effects */
+.theme-toggle-icon {
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  opacity: 0.7;
+}
+
+.theme-toggle-icon:hover {
+  transform: rotate(15deg) scale(1.1);
+  opacity: 1;
+}
+
+.theme-toggle-icon active {
+  transform: scale(0.9);
+}
+
+/* Smooth Theme Transition */
+body, .retro-window, .retro-header, .retro-content, .retro-input, .retro-button, svg {
+  transition: background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
+              color 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
+              border-color 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
