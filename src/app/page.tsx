@@ -101,7 +101,8 @@ export default function Home() {
   ];
 
   useEffect(() => {
-    if (searchInputRef.current) {
+    // Conditional auto-focus: Only for desktop (width > 768px)
+    if (searchInputRef.current && window.innerWidth > 768) {
       searchInputRef.current.focus();
     }
   }, [activeTab]);
@@ -131,7 +132,7 @@ export default function Home() {
 
   return (
     <main className="container">
-      {/* Header with Theme Toggle only */}
+      {/* Header with Theme Toggle */}
       <div style={{ display: 'flex', justifyContent: 'flex-end', paddingTop: '1rem', marginBottom: '2rem' }}>
         <ThemeToggle />
       </div>
@@ -215,42 +216,36 @@ export default function Home() {
             </div>
           )
         ) : (
-          filteredExercises.length > 0 ? (
-            filteredExercises.map((ex) => (
-              <div key={ex.id} className="retro-window">
-                <div className="retro-header">CAPÍTULO_{ex.chapter} // EJERCICIO_{ex.number}</div>
-                <div className="retro-content">
-                  <p style={{ fontSize: '1.1rem', fontWeight: 'bold', marginBottom: '1.5rem' }}>{ex.enunciado}</p>
-                  <button 
-                    onClick={() => toggleSolution(ex.id)}
-                    style={{ 
-                      width: '100%', 
-                      textAlign: 'left', 
-                      padding: '10px 20px', 
-                      border: '2px solid var(--foreground)', 
-                      background: openSolutions[ex.id] ? 'var(--foreground)' : 'var(--background)',
-                      color: openSolutions[ex.id] ? 'var(--background)' : 'var(--foreground)',
-                      fontWeight: 'bold', 
-                      cursor: 'pointer', 
-                      fontFamily: 'var(--font-mono)',
-                      marginBottom: openSolutions[ex.id] ? '1.5rem' : '0'
-                    }}
-                  >
-                    {openSolutions[ex.id] ? '[-] OCULTAR PRUEBA' : '[+] VER PRUEBA'}
-                  </button>
-                  {openSolutions[ex.id] && (
-                    <div style={{ padding: '1.5rem', border: '1px dashed var(--foreground)', fontSize: '1rem', opacity: 0.9 }}>
-                      {ex.solution}
-                    </div>
-                  )}
-                </div>
+          filteredExercises.map((ex) => (
+            <div key={ex.id} className="retro-window">
+              <div className="retro-header">CAPÍTULO_{ex.chapter} // EJERCICIO_{ex.number}</div>
+              <div className="retro-content">
+                <p style={{ fontSize: '1.1rem', fontWeight: 'bold', marginBottom: '1.5rem' }}>{ex.enunciado}</p>
+                <button 
+                  onClick={() => toggleSolution(ex.id)}
+                  style={{ 
+                    width: '100%', 
+                    textAlign: 'left', 
+                    padding: '10px 20px', 
+                    border: '2px solid var(--foreground)', 
+                    background: openSolutions[ex.id] ? 'var(--foreground)' : 'var(--background)',
+                    color: openSolutions[ex.id] ? 'var(--background)' : 'var(--foreground)',
+                    fontWeight: 'bold', 
+                    cursor: 'pointer', 
+                    fontFamily: 'var(--font-mono)',
+                    marginBottom: openSolutions[ex.id] ? '1.5rem' : '0'
+                  }}
+                >
+                  {openSolutions[ex.id] ? '[-] OCULTAR PRUEBA' : '[+] VER PRUEBA'}
+                </button>
+                {openSolutions[ex.id] && (
+                  <div style={{ padding: '1.5rem', border: '1px dashed var(--foreground)', fontSize: '1rem', opacity: 0.9 }}>
+                    {ex.solution}
+                  </div>
+                )}
               </div>
-            ))
-          ) : (
-            <div style={{ textAlign: 'center', padding: '4rem', border: '1px dashed var(--foreground)', opacity: 0.5 }}>
-              SIN RESULTADOS EN EJERCICIOS PARA: &quot;{searchTerm}&quot;
             </div>
-          )
+          ))
         )}
       </section>
     </main>

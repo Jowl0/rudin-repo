@@ -36,13 +36,19 @@ export default function RootLayout({
   return (
     <html lang="es" suppressHydrationWarning>
       <head>
-        {/* Anti-Flash Theme Script */}
+        {/* Anti-Flash Theme Script with System Detection */}
         <script
           dangerouslySetInnerHTML={{
             __html: `
               (function() {
                 try {
-                  var theme = localStorage.getItem('theme') || 'light';
+                  var theme = localStorage.getItem('theme');
+                  var supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                  
+                  if (!theme) {
+                    theme = supportDarkMode ? 'dark' : 'light';
+                  }
+                  
                   document.documentElement.setAttribute('data-theme', theme);
                 } catch (e) {}
               })();
